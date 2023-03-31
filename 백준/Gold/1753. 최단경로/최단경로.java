@@ -16,7 +16,6 @@ class Edge implements Comparable<Edge> {
 }
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -28,6 +27,8 @@ public class Main {
         for(int i=0; i<=N; i++) {
             arr[i] = new ArrayList<>();
         }
+        int[] dis = new int[N+1];
+        Arrays.fill(dis, Integer.MAX_VALUE);
 
         for(int i=0; i<M; i++) {
             st = new StringTokenizer(br.readLine());
@@ -37,28 +38,27 @@ public class Main {
             arr[s].add(new Edge(e, cost));
         }
 
-        int[] answer = new int[N+1];
+        PriorityQueue<Edge> pQ = new PriorityQueue<>();
+        dis[start] = 0;
+        pQ.add(new Edge(start, 0));
         boolean[] visit = new boolean[N+1];
-        Arrays.fill(answer, Integer.MAX_VALUE);
-        PriorityQueue<Edge> q = new PriorityQueue<>();
-        answer[start] = 0;
-        q.add(new Edge(start, 0));
-        while(!q.isEmpty()) {
-            Edge edge = q.poll();
+        while(!pQ.isEmpty()) {
+            Edge edge = pQ.poll();
+            if(visit[edge.e])
+                continue;
             visit[edge.e] = true;
-            for(Edge edge1 : arr[edge.e]) {
-                if(!visit[edge1.e] && answer[edge1.e] > answer[edge.e] + edge1.cost) {
-                    answer[edge1.e] = answer[edge.e] + edge1.cost;
-                    q.add(new Edge(edge1.e, answer[edge1.e]));
+            for(Edge o : arr[edge.e]) {
+                if(dis[edge.e] != Integer.MAX_VALUE && dis[o.e] > dis[edge.e] + o.cost) {
+                    dis[o.e] = dis[edge.e] + o.cost;
+                    pQ.add(new Edge(o.e, dis[o.e]));
                 }
             }
         }
         for(int i=1; i<=N; i++) {
-            if(answer[i] == Integer.MAX_VALUE) {
+            if(dis[i] == Integer.MAX_VALUE)
                 System.out.println("INF");
-            }
             else
-                System.out.println(answer[i]);
+                System.out.println(dis[i]);
         }
     }
 }
