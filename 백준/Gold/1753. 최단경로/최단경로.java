@@ -5,7 +5,7 @@ import java.util.*;
 
 class Edge implements Comparable<Edge> {
     int e, cost;
-    public Edge(int e, int cost) {
+    Edge(int e, int cost) {
         this.e = e;
         this.cost = cost;
     }
@@ -19,46 +19,46 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int N = Integer.valueOf(st.nextToken());
-        int M = Integer.valueOf(st.nextToken());
-        int start = Integer.valueOf(br.readLine());
-
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
+        int start = Integer.parseInt(br.readLine());
         ArrayList<Edge>[] arr = new ArrayList[N+1];
         for(int i=0; i<=N; i++) {
             arr[i] = new ArrayList<>();
         }
         int[] dis = new int[N+1];
         Arrays.fill(dis, Integer.MAX_VALUE);
-
         for(int i=0; i<M; i++) {
             st = new StringTokenizer(br.readLine());
-            int s = Integer.valueOf(st.nextToken());
-            int e = Integer.valueOf(st.nextToken());
-            int cost = Integer.valueOf(st.nextToken());
+            int s = Integer.parseInt(st.nextToken());
+            int e = Integer.parseInt(st.nextToken());
+            int cost = Integer.parseInt(st.nextToken());
             arr[s].add(new Edge(e, cost));
         }
-
         PriorityQueue<Edge> pQ = new PriorityQueue<>();
         dis[start] = 0;
         pQ.add(new Edge(start, 0));
-        boolean[] visit = new boolean[N+1];
+        boolean[] visited = new boolean[N+1];
         while(!pQ.isEmpty()) {
-            Edge edge = pQ.poll();
-            if(visit[edge.e])
+            Edge o = pQ.poll();
+            if(visited[o.e])
                 continue;
-            visit[edge.e] = true;
-            for(Edge o : arr[edge.e]) {
-                if(dis[edge.e] != Integer.MAX_VALUE && dis[o.e] > dis[edge.e] + o.cost) {
-                    dis[o.e] = dis[edge.e] + o.cost;
-                    pQ.add(new Edge(o.e, dis[o.e]));
+            visited[o.e] = true;
+            for(Edge edge : arr[o.e]) {
+                if(dis[o.e] != Integer.MAX_VALUE && dis[edge.e] > dis[o.e] + edge.cost) {
+                    dis[edge.e] = dis[o.e] + edge.cost;
+                    pQ.add(new Edge(edge.e, dis[edge.e]));
                 }
             }
         }
+        StringBuilder sb = new StringBuilder();
         for(int i=1; i<=N; i++) {
             if(dis[i] == Integer.MAX_VALUE)
-                System.out.println("INF");
+                sb.append("INF").append("\n");
             else
-                System.out.println(dis[i]);
+                sb.append(dis[i]).append("\n");
         }
+        System.out.print(sb);
+
     }
 }
