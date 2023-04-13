@@ -55,9 +55,7 @@ public class Main {
     public static void clean(int x, int y, int dir) {
         int value = 4;
         while(value-- > 0) {
-            dir = dir - 1;
-            if(dir < 0)
-                dir = 3;
+            dir = (dir + 3) % 4;
             int nx = x + dx[dir];
             int ny = y + dy[dir];
             if(nx < 0 || nx >= N || ny < 0 || ny >= M)
