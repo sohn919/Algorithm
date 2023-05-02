@@ -1,36 +1,34 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int N = Integer.valueOf(br.readLine());
-        List<Integer> list = new ArrayList<>();
+        int N = Integer.parseInt(br.readLine());
+        int[] arr = new int[N];
         StringTokenizer st = new StringTokenizer(br.readLine());
         for(int i=0; i<N; i++) {
-            list.add(Integer.parseInt(st.nextToken()));
+            arr[i] = Integer.parseInt(st.nextToken());
         }
-        int M = Integer.parseInt(br.readLine());
-        Collections.sort(list);
-        int lt = 0;
-        int rt = list.size()-1;
+        int X = Integer.parseInt(br.readLine());
+        Arrays.sort(arr);
+        int lt = 0, rt = arr.length - 1;
         int answer = 0;
         while(lt < rt) {
-            if(list.get(lt) + list.get(rt) > M) {
+            int sum = arr[lt] + arr[rt];
+            if(sum > X) {
                 rt--;
+                continue;
             }
-            else if(list.get(lt) + list.get(rt) < M) {
+            if(sum < X) {
                 lt++;
+                continue;
             }
-            else {
-                answer++;
-                lt++;
-            }
+            answer++;
+            lt++;
         }
         System.out.print(answer);
     }
