@@ -1,7 +1,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -9,20 +11,19 @@ public class Main {
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
-        LinkedHashSet<String> linkedHashSet = new LinkedHashSet<>();
+        Set<String> set = new LinkedHashSet<>();
         for(int i=0; i<M; i++) {
             String s = br.readLine();
-            if(linkedHashSet.contains(s)) {
-                linkedHashSet.remove(s);
-            }
-            linkedHashSet.add(s);
+            if(set.contains(s)) set.remove(s);
+            set.add(s);
         }
         int cnt = 0;
-        for(String s : linkedHashSet) {
-            System.out.println(s);
+        StringBuilder sb = new StringBuilder();
+        for(String s : set) {
+            sb.append(s).append("\n");
             cnt++;
-            if(cnt == N)
-                break;
+            if(cnt == N) break;
         }
+        System.out.print(sb);
     }
 }
