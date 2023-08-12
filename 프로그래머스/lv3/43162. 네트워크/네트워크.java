@@ -11,7 +11,7 @@ class Solution {
         return answer;
     }
 
-    public static void DFS(boolean[] visited, int[][] computers, int num) {
+    public void DFS(boolean[] visited, int[][] computers, int num) {
         for (int j=0; j<computers[num].length; j++) {
             if (computers[num][j] == 1 && !visited[j]) {
                 visited[j] = true;
