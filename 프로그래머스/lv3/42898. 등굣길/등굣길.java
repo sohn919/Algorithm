@@ -1,24 +1,24 @@
 class Solution {
     public int solution(int m, int n, int[][] puddles) {
-        int answer = 0;
-        int[][] dp = new int[n][m];
-        dp[0][0] = 1;
-        for (int[] puddle : puddles) {
-            dp[puddle[1]-1][puddle[0]-1] = Integer.MAX_VALUE;
+                 int answer = 0;
+        int[][] dp = new int[m+1][n+1];
+        dp[1][1] = 1;
+        for (int i=0; i<puddles.length; i++) {
+            dp[puddles[i][0]][puddles[i][1]] = Integer.MAX_VALUE;
         }
-        for (int i=0; i<n; i++) {
-            for (int j=0; j<m; j++) {
+        for (int i=1; i<=m; i++) {
+            for (int j=1; j<=n; j++) {
                 if (dp[i][j] == Integer.MAX_VALUE) continue;
-                if (i>=1 && dp[i-1][j] != Integer.MAX_VALUE) {
+                if (dp[i-1][j] != Integer.MAX_VALUE) {
                     dp[i][j] += dp[i-1][j];
                 }
-                if (j>=1 && dp[i][j-1] != Integer.MAX_VALUE) {
+                if (dp[i][j-1] != Integer.MAX_VALUE) {
                     dp[i][j] += dp[i][j-1];
                 }
                 dp[i][j] %= 1_000_000_007;
             }
         }
-        answer = dp[n-1][m-1];
+        answer = dp[m][n];
         return answer;
     }
 }
