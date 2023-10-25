@@ -3,17 +3,18 @@ import java.util.Arrays;
 class Solution {
     public int solution(int[] arr) {
         Arrays.sort(arr);
-        int temp = arr[arr.length-1];
+        long temp = arr[arr.length-1];
         for (int i=arr.length-2; i>=0; i--) {
             temp = lcm(temp, arr[i]);
         }
-        return temp;
+        int answer = (int) temp;
+        return answer;
     }
-    public int gcd(int a, int b) {
+    public long gcd(long a, long b) {
         if (b == 0) return a;
         else return gcd(b, a % b);
     }
-    public int lcm(int a, int b) {
+    public long lcm(long a, long b) {
         return (a * b) / gcd(a, b);
     }
 }
